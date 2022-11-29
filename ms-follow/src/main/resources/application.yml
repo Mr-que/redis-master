@@ -1,0 +1,45 @@
+server:
+  port: 8013
+
+
+spring:
+  application:
+    name: ms-follow-server  #好友服务
+  #数据库
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1234
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/springcloud_redis?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+  #Redis
+  redis:
+    host: 120.76.137.100
+    database: 7
+    password: qqq0510
+    port: 6389
+
+
+#oauth2服务地址
+service:
+  name:
+    ms-oauth-service: http://MS-OAUTH2-SERVER/
+    ms-diner-service: http://MS-DINERS-SERVER/
+    ms-feed-service: http://MS-FEEDS-SERVER/
+
+
+#Mybatis
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+
+#SpringCloud
+eureka:
+  instance:
+    hostname: ms-follow-server
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://eureka8888.com:8888/eureka

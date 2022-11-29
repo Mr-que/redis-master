@@ -1,0 +1,89 @@
+server:
+  port: 8527
+
+spring:
+  application:
+    name: ms-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启注册中心动态创建路由的功能，利用微服务名称进行路由
+          lower-case-service-id: true
+      routes:
+        - id: ms-diners
+          uri: lb://ms-diners-server
+          predicates:
+            - Path=/diners/**
+          filters:
+            - StripPrefix=1
+
+        - id: ms-diners
+          uri: lb://ms-diners-server
+          predicates:
+            - Path=/sign/**
+
+        - id: ms-diners
+          uri: lb://ms-diners-server
+          predicates:
+            - Path=/nearname/**
+
+        - id: ms-oauth2
+          uri: lb://ms-oauth2-server
+          predicates:
+              - Path=/auth/**
+          filters:
+            - StripPrefix=1     #地址截取一级后再路由
+
+        - id: ms-seckill
+          uri: lb://ms-seckill-server
+          predicates:
+            - Path=/seckill/**
+
+        - id: ms-follow
+          uri: lb://ms-follow-server
+          predicates:
+              - Path=/follow/**
+
+        - id: ms-feeds
+          uri: lb://ms-feeds-server
+          predicates:
+              - Path=/feeds/**
+        - id: ms-points
+          uri: lb://ms-points-server
+          predicates:
+              - Path=/points/**
+
+        - id: ms-restaurant
+          uri: lb://ms-restaurant-server
+          predicates:
+            - Path=/restaurant/**
+
+#配置白名单路径，非白名单网关无法访问
+secure:
+  ignore:
+    urls:
+      - /actuator/**
+      - /auth/oauth/**
+      - /diners/**
+      - /seckill/**
+      - /follow/**
+      - /feeds/**
+      - /points/**
+      - /sign/**
+      - /nearname/**
+      - /restaurant/**
+
+#OAuth2服务调用地址
+service:
+  name:
+    ms-oauth-service: http://MS-OAUTH2-SERVER/
+
+eureka:
+  instance:
+    hostname: ms-gateway-service
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://eureka8888.com:8888/eureka/

@@ -1,0 +1,43 @@
+server:
+  port: 8016
+
+spring:
+  application:
+    name: ms-seckill-server   #秒杀服务
+    #数据库
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1234
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/springcloud_redis?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    #Redis
+  redis:
+    host: 120.76.137.100
+    database: 3
+    password: qqq0510
+    port: 6389
+
+
+#SpringCloud
+eureka:
+  instance:
+    hostname: ms-seckill-server
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://eureka8888.com:8888/eureka
+
+
+#Mybatis
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+
+#oauth2服务地址
+service:
+  name:
+    ms-oauth-service: http://MS-OAUTH2-SERVER/
+

@@ -1,0 +1,48 @@
+server:
+  port: 8011
+
+spring:
+  application:
+    name: ms-diners-server  #用户服务
+  #数据库
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1234
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/springcloud_redis?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+  #Redis
+  redis:
+    host: 120.76.137.100
+    database: 2
+    password: qqq0510
+    port: 6389
+
+#Oauth2
+client:
+  oauth2:
+    client-id: appId          #客户端标识ID
+    secret: 123456            #客户端安全码
+    grant_type: password      #授权类型,下划线不是驼峰，因此实体类要有下划线
+    scopes: api               #客户端访问范围
+
+#oauth2服务地址
+service:
+  name:
+    ms-oauth-service: http://MS-OAUTH2-SERVER/
+    ms-points-service: http://MS-POINTS-SERVER/
+
+
+#Mybatis
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+eureka:
+  instance:
+    hostname: ms-diners-server
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka8888.com:8888/eureka/

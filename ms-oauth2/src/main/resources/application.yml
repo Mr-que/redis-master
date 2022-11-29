@@ -1,0 +1,53 @@
+server:
+  port: 8012
+
+spring:
+  application:
+    name: ms-oauth2-server  #注册中心的名称
+
+  #数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/springcloud_redis?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: root
+    password: 1234
+  #Redis配置
+  redis:
+    host: 120.76.137.100
+    database: 6
+    password: qqq0510
+    port: 6389
+    timeout: 3000
+
+#SpringSecurity
+oauth2:
+  client:
+    client-id: appId #客户端标识
+    secret: 123456   #客户端安全码
+    #授权类型
+    grant-type:
+      - password
+      - refresh_token
+    #Token有效期
+    access-token-validity-seconds: 2592000
+    refresh-token-validity-seconds: 2592000
+    #客户端访问范围
+    scope:
+      - api
+      - all
+
+#Mybatis
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true  #开启驼峰
+
+#Eureka配置中心
+eureka:
+  instance:
+    hostname: ms-oauth2-server
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://eureka8888.com:8888/eureka

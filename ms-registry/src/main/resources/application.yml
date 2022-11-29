@@ -1,0 +1,22 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: ms-register
+
+eureka:
+  instance:
+    hostname: eureka8888.com
+  client:
+    register-with-eureka: false   #不注册自己
+    fetch-registry: false         #不需要检索服务
+    service-url:
+      defaultZone: http://eureka8888.com:8888/eureka/
+  server:
+    enable-self-preservation: false #心跳检测
+    eviction-interval-timer-in-ms: 2000
+
+logging:
+  level:
+    com.netflix: warn
